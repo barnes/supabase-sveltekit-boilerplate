@@ -15,9 +15,6 @@
 
 	user.set(supabase.auth.user());
 
-	console.log(userIn);
-	console.log(tasks);
-
 	supabase.auth.onAuthStateChange((_, session) => {
 		user.set(supabase.auth.user());
 	});

@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/db';
 
@@ -11,6 +12,10 @@ export interface Task {
 	uuid: string;
 	text: string;
 	completed: boolean;
+}
+
+export interface TaskList {
+	tasks: Array<object>;
 }
 
 export const createTask = async (task: Task) => {
@@ -41,7 +46,11 @@ export const updateTask = async (task: Task) => {
 };
 
 export const getTasks = async (user: User) => {
-	const { data, error } = await supabase.from('demo').select('*').eq('uuid', user.id);
+	const { data, error } = await supabase
+		.from('demo')
+		.select('*')
+		.eq('uuid', user.id)
+		.order('id', { ascending: false });
 	if (error) {
 		console.error(error);
 	} else {
