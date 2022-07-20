@@ -1,9 +1,22 @@
-<script>
+<script type="ts" context="module">
 	import '../app.css';
 	import { supabase } from '$lib/db';
 	import { user } from '$lib/userStore';
+	import { tasks, getTasks, userIn } from '$lib/taskStore';
+	import { onMount } from 'svelte';
+	import Nav from '../components/Nav.svelte';
+
+	export async function load() {
+		let user = supabase.auth.user();
+		if (user) {
+			tasks.set(await getTasks(user));
+		}
+	}
 
 	user.set(supabase.auth.user());
+
+	console.log(userIn);
+	console.log(tasks);
 
 	supabase.auth.onAuthStateChange((_, session) => {
 		user.set(supabase.auth.user());
@@ -16,6 +29,7 @@
 		<p>A quick prototyping boilerplate using Sveltekit, TailwindCSS and Supabase</p>
 	</div>
 	<div class="content p-6">
+		<Nav />
 		<slot />
 	</div>
 </div>

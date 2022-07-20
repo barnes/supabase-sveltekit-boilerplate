@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createTask, tasks } from '$lib/taskStore';
+	import { createTask, getTasks, tasks } from '$lib/taskStore';
 	import type { Task } from '$lib/taskStore';
 	import { user } from '$lib/userStore';
 
@@ -16,6 +16,7 @@
 			console.error(error);
 		} finally {
 			newTask.text = '';
+			await getTasks($user);
 		}
 	};
 </script>

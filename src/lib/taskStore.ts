@@ -2,6 +2,8 @@ import { writable } from 'svelte/store';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/db';
 
+export const userIn = supabase.auth.user();
+
 export const tasks = writable();
 
 export interface Task {
